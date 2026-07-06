@@ -1,4 +1,10 @@
-@page "/spells"
+@page "/spells" 
+@using Blazorise.LoadingIndicator
+@using HarryPotter.Client.Core.Models @* Import classes *@
+@using HarryPotter.Client.Core.Services
+@using HarryPotter.Server.Models @* import more classes *@
+@inject HarryPotterService HarryPotterService
+@* Defines a new URL directory for the file *@
 
 <h1><b>Spells Challenge</b></h1>
 
@@ -52,6 +58,10 @@
     <tbody>
         <tr>
             <td colspan="2">Your spell data will appear here once you finish the feature.</td>
+            @foreach (Spells spell in Spells)
+            {
+                
+            }
         </tr>
     </tbody>
 </table>
@@ -74,4 +84,31 @@
             margin-top: 10px;
         }
     </style>
+}
+
+@code {
+    private string SpellSearchText = string.Empty;
+
+    private bool IsLoading;
+
+    private List<Spell> SpellList { get; set; } = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        IsLoading = true;
+        SpellList = await HarryPotterService.GetSpellsAsync();
+        IsLoading = false;
+    }
+    private IEnumerable<Spell> FilteredSpells
+    {
+        get
+        {
+            if (string.IsNullOrWhiteSpace(SpellSearchText)) //if there is no data, ignore character
+            {
+                return SpellList;
+            }
+            return SpellList.Where(character =>
+                character.Name?.Contains(SpellSearchText, StringComparison.OrdinalIgnoreCase) ?? false);
+        }
+    }
 }

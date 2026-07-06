@@ -1,5 +1,7 @@
-using System.Text.Json;
+using Blazorise;
 using HarryPotter.Client.Core.Models;
+using HarryPotter.Server.Models;
+using System.Text.Json;
 
 namespace HarryPotter.Client.Core.Services
 {
@@ -25,5 +27,15 @@ namespace HarryPotter.Client.Core.Services
             return characters ?? new List<Character>();
         }
 
+        public async Task<List<Spell>> GetSpellsAsync()
+        {
+            HttpResponseMessage response = await _httpClient.GetAsync($"{BaseAddress}characters");
+            response.EnsureSuccessStatusCode();
+
+            string json = await response.Content.ReadAsStringAsync();
+            List<Spell>? spells = JsonSerializer.Deserialize<List<Spell>>(json);
+
+            return spells ?? new List<Spell>();
+        }
     }
 }

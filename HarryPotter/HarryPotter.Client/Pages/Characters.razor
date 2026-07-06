@@ -1,6 +1,6 @@
 @page "/characters"
 @using Blazorise.LoadingIndicator
-@using HarryPotter.Client.Core.Models
+@using HarryPotter.Client.Core.Models @* Import classes *@
 @using HarryPotter.Client.Core.Services
 @inject HarryPotterService HarryPotterService
 
@@ -106,7 +106,7 @@
     {
         get
         {
-            if (string.IsNullOrWhiteSpace(CharacterSearchText))
+            if (string.IsNullOrWhiteSpace(CharacterSearchText)) //if there is no data, ignore character
             {
                 return CharacterList;
             }
