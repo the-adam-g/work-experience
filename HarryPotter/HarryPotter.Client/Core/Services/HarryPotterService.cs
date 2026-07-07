@@ -29,7 +29,7 @@ namespace HarryPotter.Client.Core.Services
 
         public async Task<List<Spell>> GetSpellsAsync()
         {
-            HttpResponseMessage response = await _httpClient.GetAsync($"{BaseAddress}spells");
+            HttpResponseMessage response = await _httpClient.GetAsync($"{BaseAddress}spells"); //defines url for the api request + page
             response.EnsureSuccessStatusCode();
 
             string json = await response.Content.ReadAsStringAsync();
