@@ -58,11 +58,14 @@
     <tbody>
         <tr>
             <td colspan="2">Your spell data will appear here once you finish the feature.</td>
-            @foreach (Spells spell in Spells)
-            {
-                
-            }
         </tr>
+        @foreach (Spell spell in FilteredSpells)
+        {
+            <tr>
+                <td>@spell.Name</td>
+                <td>@spell.Description</td>
+            </tr>
+        }
     </tbody>
 </table>
 

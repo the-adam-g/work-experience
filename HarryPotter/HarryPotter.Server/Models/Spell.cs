@@ -2,7 +2,7 @@
 
 namespace HarryPotter.Server.Models
 {
-    public class Spell
+    public class Spell  //defines the class for the spells mimicking the class 
     {
         [JsonPropertyName("ID")]
         public string? ID { get; set; }
