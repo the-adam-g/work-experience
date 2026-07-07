@@ -96,7 +96,7 @@
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;
-        SpellList = await HarryPotterService.GetSpellsAsync();
+        SpellList = await HarryPotterService.GetSpellsAsync(); //Set spell link to API call 
         IsLoading = false;
     }
     private IEnumerable<Spell> FilteredSpells
