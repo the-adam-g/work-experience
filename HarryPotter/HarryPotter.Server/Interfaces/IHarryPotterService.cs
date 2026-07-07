@@ -6,5 +6,6 @@ namespace HarryPotter.Server.Interfaces
     {
         Task<List<Character>> GetCharactersAsync();
         Task<List<Spell>> GetSpellsAsync();
+        Task<List<Book>> GetBooksAsync();
     }
 }

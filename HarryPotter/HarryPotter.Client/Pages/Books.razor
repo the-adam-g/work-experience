@@ -1,0 +1,75 @@
+@page "/books" 
+@using Blazorise.LoadingIndicator
+@using HarryPotter.Client.Core.Models @* Import classes *@
+@using HarryPotter.Client.Core.Services
+@using HarryPotter.Server.Models @* import more classes *@
+@inject HarryPotterService HarryPotterService
+@* Defines a new URL directory for the file *@
+
+<div class="search-field">
+    <Field Horizontal>
+        <FieldLabel ColumnSize="ColumnSize.Is1">Name:</FieldLabel>
+        <FieldBody ColumnSize="ColumnSize.Is4">
+            <input class="form-control" placeholder="Enter book title here" @bind="BookSearchText" @bind:event="oninput" />
+        </FieldBody>
+    </Field>
+</div>
+
+<table class="table table-striped table-hover spells-table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Release Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Book book in FilteredBooks)
+        {
+            <tr>
+                <td>@book.Name</td>
+                <td>@book.Description</td>
+                <td>@book.releaseDate</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    <style scoped>
+        .search-field {
+            padding: 10px;
+        }
+
+        .spells-table {
+            margin-top: 10px;
+        }
+    </style>
+}
+
+@code {
+    private string BookSearchText = string.Empty;
+
+    private bool IsLoading;
+
+    private List<Book> BookList { get; set; } = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        IsLoading = true;
+        BookList = await HarryPotterService.GetBooksAsync(); //Set spell link to API call
+        IsLoading = false;
+    }
+    private IEnumerable<Book> FilteredBooks
+    {
+        get
+        {
+            if (string.IsNullOrWhiteSpace(BookSearchText)) //if there is no data, ignore character
+            {
+                return BookList;
+            }
+            return BookList.Where(character =>
+                character.Name?.Contains(BookSearchText, StringComparison.OrdinalIgnoreCase) ?? false);
+        }
+    }
+}

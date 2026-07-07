@@ -37,5 +37,15 @@ namespace HarryPotter.Client.Core.Services
 
             return spells ?? new List<Spell>();
         }
+        public async Task<List<Book>> GetBooksAsync()
+        {
+            HttpResponseMessage response = await _httpClient.GetAsync($"https://potterapi-fedeperin.vercel.app/en/books"); //defines url for the api request + page
+            response.EnsureSuccessStatusCode();
+
+            string json = await response.Content.ReadAsStringAsync();
+            List<Book>? books = JsonSerializer.Deserialize<List<Book>>(json);
+
+            return books ?? new List<Book>();
+        }
     }
 }
