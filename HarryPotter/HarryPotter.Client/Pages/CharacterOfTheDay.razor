@@ -1,30 +1,36 @@
 @page "/cotd"
+
 @using Blazorise.LoadingIndicator
-@using HarryPotter.Client.Core.Models @* Import classes *@
+@using HarryPotter.Client.Core.Models
 @using HarryPotter.Client.Core.Services
+
 @inject HarryPotterService HarryPotterService
 
 <h1><b>Character of the day</b></h1>
 
-
-<LoadingIndicator @bind-Visible="@IsLoading"></LoadingIndicator>
-@code {  
-    int dateValue = int.Parse(DateTime.Today.ToString("yyyyMMdd"));
-    int characterIndex;
-
-    protected override void OnInitialized()
-    {
-        characterIndex = (dateValue % 437) + 1;
-    }
-
+@if (IsLoading)
+{
+    <LoadingIndicator Visible="true"></LoadingIndicator>
 }
-<h1>@CharacterList[characterIndex]</h1>
+else if (CharacterList.Count > 0)
+{
+    @CharacterList[characterIndex].Name
+}
+else
+{
+    <h3>No characters found.</h3>
+}
+
+
+
 @code {
     private const string DefaultImageUrl = "https://img.freepik.com/premium-vector/witch-s-broom-silhouette-isolated-white-background-traditional-halloween-decorative-element_502505-561.jpg";
 
     private string CharacterSearchText = string.Empty;
 
     private bool IsLoading;
+
+    private int characterIndex; //set initially to prevent build errors 
 
     private List<Character> CharacterList { get; set; } = [];
 
@@ -33,6 +39,8 @@
         IsLoading = true;
         CharacterList = await HarryPotterService.GetCharactersAsync();
         IsLoading = false;
+        int dateValue = int.Parse(DateTime.Today.ToString("yyyyMMdd"));
+        characterIndex = dateValue % CharacterList.Count;
     }
 
     private IEnumerable<Character> FilteredCharacters
@@ -104,69 +112,66 @@
     }
 }
 
-@{
-    <style scoped>
-        .card-title {
-            color: white;
-            font-weight: bold;
-        }
+<style scoped>
+    .card-title {
+        color: white;
+        font-weight: bold;
+    }
+    .card-size {
+        max-width: 200px;
+        margin: 20px;
+    }
 
-        .card-size {
-            max-width: 200px;
-            margin: 20px;
-        }
+    .card-grid {
+        flex-flow: row wrap;
+        margin-right: -.75rem;
+        margin-left: -.75rem;
+        display: flex;
+    }
+    
+    .card-border {
+        border: 5px solid #FFFFFF;
+    }
 
-        .card-grid {
-            flex-flow: row wrap;
-            margin-right: -.75rem;
-            margin-left: -.75rem;
-            display: flex;
-        }
+    .card-body {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+        padding-top: 10px !important;
+    }
 
-        .card-border {
-            border: 5px solid #FFFFFF;
-        }
+    .search-field {
+        padding: 10px;
+    }
 
-        .card-body {
-            padding-left: 0px !important;
-            padding-right: 0px !important;
-            padding-top: 10px !important;
-        }
+    .read-more-button {
+        padding: 0px !important;
+        padding-right: 1px !important;
+        background-color: transparent;
+        background-repeat: no-repeat;
+        border: none;
+        cursor: pointer;
+        overflow: hidden;
+        outline: none;
+    }
 
-        .search-field {
-            padding: 10px;
-        }
+    .arrow {
+        border: solid black;
+        border-width: 0 2px 2px 0;
+        display: inline-block;
+        padding: 3px;
+    }
 
-        .read-more-button {
-            padding: 0px !important;
-            padding-right: 1px !important;
-            background-color: transparent;
-            background-repeat: no-repeat;
-            border: none;
-            cursor: pointer;
-            overflow: hidden;
-            outline: none;
-        }
+    .down {
+        transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+        margin-bottom: 2px;
+        margin-left: 5px;
+    }
 
-        .arrow {
-            border: solid black;
-            border-width: 0 2px 2px 0;
-            display: inline-block;
-            padding: 3px;
-        }
-
-        .down {
-            transform: rotate(45deg);
-            -webkit-transform: rotate(45deg);
-            margin-bottom: 2px;
-            margin-left: 5px;
-        }
-
-        .up {
-            transform: rotate(-135deg);
-            -webkit-transform: rotate(-135deg);
-            margin-bottom: -1px;
-            margin-left: 5px;
-        }
-    </style>
-}
+    .up {
+        transform: rotate(-135deg);
+        -webkit-transform: rotate(-135deg);
+        margin-bottom: -1px;
+        margin-left: 5px;
+    }
+</style>
