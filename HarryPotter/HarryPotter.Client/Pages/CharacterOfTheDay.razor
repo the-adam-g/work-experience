@@ -14,7 +14,67 @@
 }
 else if (CharacterList.Count > 0)
 {
-    @CharacterList[characterIndex].Name
+    <Card Style="@($"background-color: {GetHouseColor(CharacterList[characterIndex].House)}")">
+        <div class="card-size">
+            <CardTitle Size="5" Class="card-title">
+                @CharacterList[characterIndex].Name
+            </CardTitle>
+            <CardImage Source="@GetImageSource(CharacterList[characterIndex].Image)"></CardImage>
+            <div class="card-body">
+                <CardBody>
+                    <CardText>
+                        <ListGroup>
+                            @if (!string.IsNullOrWhiteSpace(CharacterList[characterIndex].Gender))
+                            {
+                                <ListGroupItem><b>Gender:</b> @CharacterList[characterIndex].Gender</ListGroupItem>
+                            }
+                            @if (!string.IsNullOrWhiteSpace(CharacterList[characterIndex].House))
+                            {
+                                <ListGroupItem><b>House:</b> @CharacterList[characterIndex].House</ListGroupItem>
+                            }
+                            @if (!string.IsNullOrWhiteSpace(CharacterList[characterIndex].DateOfBirth))
+                            {
+                                <ListGroupItem><b>Date Of Birth:</b> @CharacterList[characterIndex].DateOfBirth</ListGroupItem>
+                            }
+                            @if (!string.IsNullOrWhiteSpace(CharacterList[characterIndex].Ancestry))
+                            {
+                                <ListGroupItem><b>Ancestry:</b> @CharacterList[characterIndex].Ancestry</ListGroupItem>
+                            }
+                            @if (!string.IsNullOrWhiteSpace(CharacterList[characterIndex].Patronus))
+                            {
+                                <ListGroupItem><b>Patronus:</b> @CharacterList[characterIndex].Patronus</ListGroupItem>
+                            }
+                            @if (HasWandDetails(CharacterList[characterIndex]))
+                            {
+                                <ListGroupItem>
+                                    <b>Wand:</b>
+                                    <Button Class="read-more-button" @onclick="@(() => ToggleWandDetails(CharacterList[characterIndex]))">
+                                        @(CharacterList[characterIndex].ShowWandDetails ? "Hide details" : "Read more")
+                                        <i class="arrow @(CharacterList[characterIndex].ShowWandDetails ? "up" : "down")"></i>
+                                    </Button>
+                                </ListGroupItem>
+                            }
+                            @if (CharacterList[characterIndex].ShowWandDetails)
+                            {
+                                @if (!string.IsNullOrWhiteSpace(CharacterList[characterIndex].Wand?.Wood))
+                                {
+                                    <ListGroupItem><b>Wood:</b> @CharacterList[characterIndex].Wand!.Wood</ListGroupItem>
+                                }
+                                @if (!string.IsNullOrWhiteSpace(CharacterList[characterIndex].Wand?.Core))
+                                {
+                                    <ListGroupItem><b>Core:</b> @CharacterList[characterIndex].Wand!.Core</ListGroupItem>
+                                }
+                                @if (CharacterList[characterIndex].Wand?.Length is not null)
+                                {
+                                    <ListGroupItem><b>Length:</b> @CharacterList[characterIndex].Wand.Length</ListGroupItem>
+                                }
+                            }
+                        </ListGroup>
+                    </CardText>
+                </CardBody>
+            </div>
+        </div>
+    </Card>
 }
 else
 {
@@ -118,8 +178,11 @@ else
         font-weight: bold;
     }
     .card-size {
+        margin-left: auto;
+        margin-right: auto;
         max-width: 200px;
-        margin: 20px;
+        margin-top: 20px;
+        margin-bottom: 20px;
     }
 
     .card-grid {
