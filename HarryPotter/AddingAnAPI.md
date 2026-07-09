@@ -2,6 +2,8 @@
 
 ## Step 1. Add a class
 The first step into creating the new endpoint is to add a class for the API data. This allows for each API JSON object to be put into an object which the code later accesses.
+***This must exist both server and client side in the .../models/***
+
 **How to add to the code**
 ```
 using System.Text.Json.Serialization;
@@ -40,7 +42,7 @@ namespace HarryPotter.Server.Models
 }
 ```
 
-## Step 2. Alter HarryPotterService
+## Step 2. Alter HarryPotterService [Client Side]
 Next, add a get asynchronous method to get the API data. **Asynchronous means that the API data can be fetched without freezing the page.**
 
 **How to add to the code**
@@ -71,7 +73,107 @@ public async Task<List<Book>> GetBooksAsync()
         }
 ```
 
-## Step 3. Add razor page
+## Step 3. Alter HarryPotterService.cs [Server Side]
+Next add logic to the HarryPotterService.cs on the server side to decrypt the JSON from the API request.
+
+**How to add to the code**
+```
+using System.Text.Json;
+using HarryPotter.Server.Models;
+using HarryPotter.Server.Interfaces;
+using HarryPotter.Client.Pages;
+
+namespace HarryPotter.Server.Services
+{
+    public class HarryPotterService : IHarryPotterService
+    {
+        private readonly HttpClient _httpClient;
+
+        public HarryPotterService(HttpClient client)
+        {
+            _httpClient = client;
+        }
+
+        public async Task<List<[List Name]>> Get[Function name]Async()
+        {
+            HttpResponseMessage response = await _httpClient.GetAsync("[Item]");
+            response.EnsureSuccessStatusCode();
+
+            string json = await response.Content.ReadAsStringAsync();
+            List<[List name]>? [items] = JsonSerializer.Deserialize<List<Book>>(json); //interpret json from api call
+
+            return [items] ?? new List<[List name]>();
+        }
+    }
+}
+
+```
+
+**Example of integration using books**
+```
+using System.Text.Json;
+using HarryPotter.Server.Models;
+using HarryPotter.Server.Interfaces;
+using HarryPotter.Client.Pages;
+
+namespace HarryPotter.Server.Services
+{
+    public class HarryPotterService : IHarryPotterService
+    {
+        private readonly HttpClient _httpClient;
+
+        public HarryPotterService(HttpClient client)
+        {
+            _httpClient = client;
+        }
+
+        public async Task<List<Book>> GetBooksAsync()
+        {
+            HttpResponseMessage response = await _httpClient.GetAsync("books");
+            response.EnsureSuccessStatusCode();
+
+            string json = await response.Content.ReadAsStringAsync();
+            List<Book>? books = JsonSerializer.Deserialize<List<Book>>(json); //interpret json from api call
+
+            return books ?? new List<Book>();
+        }
+    }
+}
+```
+
+## Step 4. Alter IHarryPotterService.cs
+Add the function linking the List of the objects to the get asynchronous function.
+**How to add to the code**
+```
+using HarryPotter.Server.Models;
+
+namespace HarryPotter.Server.Interfaces
+{
+    public interface IHarryPotterService
+    {
+        Task<List<[LIST NAME]>> Get[WHATEVER YOU NAMED THE FUNCTION]Async();
+    }
+}
+
+```
+**Example of integration with books**
+```
+using HarryPotter.Server.Models;
+
+namespace HarryPotter.Server.Interfaces
+{
+    public interface IHarryPotterService
+    {
+        Task<List<Character>> GetCharactersAsync();
+        Task<List<Spell>> GetSpellsAsync();
+        Task<List<Book>> GetBooksAsync();
+    }
+}
+
+```
+
+
+## Step 5. Add razor page
 Razor pages act as the frontend using C# and HTML to write a page
 
 **Example of integration with books**
@@ -230,3 +332,4 @@ Razor pages act as the frontend using C# and HTML to write a page
     }
 }
 ```
+
