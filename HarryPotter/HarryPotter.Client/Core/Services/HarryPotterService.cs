@@ -1,6 +1,6 @@
 using Blazorise;
-using HarryPotter.Client.Core.Models;
 using HarryPotter.Server.Models;
+using HarryPotter.Client.Core.Models;
 using System.Text.Json;
 
 namespace HarryPotter.Client.Core.Services
@@ -46,6 +46,33 @@ namespace HarryPotter.Client.Core.Services
             List<Book>? books = JsonSerializer.Deserialize<List<Book>>(json);
 
             return books ?? new List<Book>();
+        }
+        public async Task<List<Potion>> GetPotionsAsync()
+        {
+            HttpResponseMessage response = await _httpClient.GetAsync($"https://api.potterdb.com/v1/potions"); //defines url for the api request + page
+            response.EnsureSuccessStatusCode();
+
+            string json = await response.Content.ReadAsStringAsync();
+            // The PotterDB API wraps results in a "data" property: { "data": [ ... ] }
+            try
+            {
+                using JsonDocument doc = JsonDocument.Parse(json);
+                if (doc.RootElement.ValueKind == JsonValueKind.Object && doc.RootElement.TryGetProperty("data", out var dataElement))
+                {
+                    List<Potion>? potions = JsonSerializer.Deserialize<List<Potion>>(dataElement.GetRawText());
+                    return potions ?? new List<Potion>();
+                }
+                else
+                {
+                    List<Potion>? potions = JsonSerializer.Deserialize<List<Potion>>(json);
+                    return potions ?? new List<Potion>();
+                }
+            }
+            catch (JsonException)
+            {
+                // If deserialization fails, return empty list instead of throwing to allow UI to handle gracefully
+                return new List<Potion>();
+            }
         }
     }
 }

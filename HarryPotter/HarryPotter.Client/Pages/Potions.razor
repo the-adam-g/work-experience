@@ -1,0 +1,95 @@
+@page "/potions"
+
+@using Blazorise
+@using HarryPotter.Client.Core.Services
+@using HarryPotter.Client.Core.Models
+
+@inject HarryPotterService HarryPotterService
+
+<div class="search-field">
+    <Field Horizontal>
+        <FieldLabel ColumnSize="ColumnSize.Is1">
+            Name:
+        </FieldLabel>
+
+        <FieldBody ColumnSize="ColumnSize.Is4">
+            <input class="form-control"
+                   placeholder="Enter potion name..."
+                   @bind="PotionSearchText"
+                   @bind:event="oninput" />
+        </FieldBody>
+    </Field>
+</div>
+
+@if (IsLoading)
+{
+    <p>Loading potions...</p>
+}
+else
+{
+    <table class="table table-striped table-hover potions-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Effect</th>
+                <th>Difficulty</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (Potion potion in FilteredPotions)
+            {
+                <tr>
+                    <td>@potion.Attributes?.Name</td>
+                    <td>@potion.Attributes?.Effect</td>
+                    <td>@potion.Attributes?.Difficulty</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<style>
+    .search-field {
+        padding: 10px;
+    }
+
+    .potions-table {
+        margin-top: 10px;
+    }
+</style>
+
+@code {
+
+    private string PotionSearchText = string.Empty;
+
+    private bool IsLoading;
+
+    private List<Potion> PotionList { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        IsLoading = true;
+
+        PotionList = await HarryPotterService.GetPotionsAsync();
+
+        IsLoading = false;
+    }
+
+    private IEnumerable<Potion> FilteredPotions
+    {
+        get
+        {
+            if (string.IsNullOrWhiteSpace(PotionSearchText))
+            {
+                return PotionList;
+            }
+
+            return PotionList.Where(p =>
+                p.Attributes?.Name?.Contains(
+                    PotionSearchText,
+                    StringComparison.OrdinalIgnoreCase
+                ) ?? false);
+        }
+    }
+}

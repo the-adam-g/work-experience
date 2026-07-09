@@ -45,5 +45,15 @@ namespace HarryPotter.Server.Services
 
             return books ?? new List<Book>();
         }
+        public async Task<List<Potion>> GetPotionsAsync()
+        {
+            HttpResponseMessage response = await _httpClient.GetAsync("potions");
+            response.EnsureSuccessStatusCode();
+
+            string json = await response.Content.ReadAsStringAsync();
+            List<Potion>? potions = JsonSerializer.Deserialize<List<Potion>>(json); //interpret json from api call
+
+            return potions ?? new List<Potion>();
+        }
     }
 }
