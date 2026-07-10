@@ -4,103 +4,21 @@
 
 <h1><b>Harry Potter API Project</b></h1>
 
-<p>
-    You are going to explore how a Blazor app can call an API, turn the JSON response into C# objects, and display that data in the UI.
-    Your main job is to understand the starter app, then build the unfinished Spells feature.
-    If you finish early, you can extend the app with another Harry Potter endpoint too.
-</p>
-
-<h4><b>Your mission</b></h4>
-
-<ol>
-    <li>Explore the existing Characters page.</li>
-    <li>Trace how the data moves through the app.</li>
-    <li>Build the unfinished Spells page.</li>
-    <li>Add one more Harry Potter endpoint of your own if you finish early.</li>
-</ol>
-
-<h4><b>Start here</b></h4>
+<h4><b>Objective of this Project</b></h4>
 
 <p>
-    Have a play around with the <b>Characters</b> page to see how it works before moving on to the <b>Spells Challenge</b>.
-    The Characters page is your working example of how the API data moves through the app.
+    This project was to allow us to explore how a Blazor app can call an API, turn the JSON response into C# objects and display that data in the UI
 </p>
 
-<h4><b>How the data moves</b></h4>
+<h4><b>Overview of Features</b></h4>
 
 <ol>
-    <li>A Razor page asks for data.</li>
-    <li><code>HarryPotterService</code> makes a request to our server.</li>
-    <li>The server controller calls the server service.</li>
-    <li>The server service calls the Harry Potter API at <code>https://hp-api.onrender.com/</code>.</li>
-    <li>The JSON response comes back through the app and is displayed in the UI.</li>
+    <li>A list of all the characters in Harry Potter</li>
+    <li>A list of spells in Harry Potter</li>
+    <li>A list of potions in Harry Potter</li>
+    <li>A list of books written about Harry Potter</li>
+    <li>A 'Character of the day' page, a page that is dedicated to one Harry Potter character a day</li>
+    <li>A 'Creators' page that has an overview on the creators of this page</li>
 </ol>
 
-<h4><b>Success criteria</b></h4>
 
-<ul>
-    <li>I finished the Spells page.</li>
-    <li>I created the missing model and API flow for spells.</li>
-    <li>I showed information about the spells in a clear way.</li>
-    <li>I improved how a user can explore the spell data, for example with search, filtering, grouping, or helpful messages.</li>
-    <li>I can explain how the data moves from the API to the page.</li>
-</ul>
-
-<h4><b>Milestones</b></h4>
-
-<p><b>Core</b></p>
-<ul>
-    <li>Build the Spells endpoint flow.</li>
-    <li>Finish the Spells page.</li>
-    <li>Display information about the spells.</li>
-</ul>
-
-<p><b>Good progress</b></p>
-<ul>
-    <li>Make it easier for a user to explore the spell data.</li>
-    <li>Try ideas such as search, filtering, grouping, or helpful messages.</li>
-</ul>
-
-<p><b>Stretch goal</b></p>
-<ul>
-    <li>Add another endpoint.</li>
-    <li>Or build a feature idea of your own.</li>
-</ul>
-
-<h4><b>Your first challenge</b></h4>
-
-<ul>
-    <li><code>/api/spells</code> - finish the unfinished Spells challenge</li>
-</ul>
-
-<h4><b>If you finish early</b></h4>
-
-<ul>
-    <li><code>/api/characters/students</code> - list Hogwarts students</li>
-    <li><code>/api/characters/staff</code> - list Hogwarts staff</li>
-    <li><code>/api/characters/house/:house</code> - show one Hogwarts house, such as Gryffindor</li>
-    <li><code>/api/character/:id</code> - show one specific character</li>
-</ul>
-
-<p>
-    The Spells challenge gives you practice creating the missing model and endpoint flow. Most of the character endpoints can reuse the existing <code>Character</code> model.
-</p>
-
-<h4><b>What to look at first</b></h4>
-
-<ol>
-    <li>Open the <b>Characters</b> page.</li>
-    <li>Use the <b>Spells Challenge</b> page as your first build task.</li>
-    <li>Read <code>HarryPotterService.cs</code>.</li>
-    <li>Read the server controller to see how the request is returned.</li>
-    <li>Use <code>Setting-up-an-API.md</code> when you are ready to build your own page.</li>
-</ol>
-
-<h4><b>What to show on Friday</b></h4>
-
-<ul>
-    <li>Which endpoint you chose</li>
-    <li>Which files you changed</li>
-    <li>How the data moves through the app</li>
-    <li>What you added or improved</li>
-</ul>

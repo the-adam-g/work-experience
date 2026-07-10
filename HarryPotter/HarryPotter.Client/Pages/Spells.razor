@@ -6,38 +6,7 @@
 @inject HarryPotterService HarryPotterService
 @* Defines a new URL directory for the file *@
 
-<h1><b>Spells Challenge</b></h1>
-
-<p>
-    This page is intentionally unfinished. Use the <b>Characters</b> page as your reference, then build the Spells feature yourself.
-</p>
-
-<h4><b>Your goal</b></h4>
-
-<ol>
-    <li>Create a spell model with the properties you need.</li>
-    <li>Add the server-side endpoint flow for spells.</li>
-    <li>Add the client-side service method for spells.</li>
-    <li>Load the data into this page.</li>
-    <li>Display the results and add a simple search.</li>
-</ol>
-
-<h4><b>Files you will probably change</b></h4>
-
-<ul>
-    <li>Client model</li>
-    <li>Client <code>HarryPotterService</code></li>
-    <li>Server service interface</li>
-    <li>Server <code>HarryPotterController</code></li>
-    <li>Server <code>HarryPotterService</code></li>
-    <li>This Razor page</li>
-</ul>
-
-<h4><b>Starter layout</b></h4>
-
-<p>
-    The search box and table shape are already here so you have a baseline to build on.
-</p>
+<h1><b>Spells</b></h1>
 
 <div class="search-field">
     <Field Horizontal>
@@ -56,9 +25,6 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td colspan="2">Your spell data will appear here once you finish the feature.</td>
-        </tr>
         @foreach (Spell spell in FilteredSpells)
         {
             <tr>
