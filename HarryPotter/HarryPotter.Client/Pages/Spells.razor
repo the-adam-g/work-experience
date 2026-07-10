@@ -91,11 +91,8 @@
 
 @code {
     private string SpellSearchText = string.Empty;
-
     private bool IsLoading;
-
     private List<Spell> SpellList { get; set; } = [];
-
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;

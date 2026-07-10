@@ -11,3 +11,5 @@ namespace HarryPotter.Server.Interfaces
         Task<List<Potion>> GetPotionsAsync();
     }
 }
+
+

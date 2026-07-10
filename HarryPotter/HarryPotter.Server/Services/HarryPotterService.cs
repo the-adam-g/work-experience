@@ -1,7 +1,6 @@
 using System.Text.Json;
 using HarryPotter.Server.Models;
 using HarryPotter.Server.Interfaces;
-using HarryPotter.Client.Pages;
 
 namespace HarryPotter.Server.Services
 {
